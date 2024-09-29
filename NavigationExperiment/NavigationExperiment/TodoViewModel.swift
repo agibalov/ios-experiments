@@ -1,27 +1,28 @@
 import SwiftUI
 
 @MainActor
-class TodoViewModel: ObservableObject {
-    private let id: String
-    private let todoRepository: TodoRepository
+@Observable
+class TodoViewModel {
+    private var todoRepository: TodoRepository
     
-    @Published var loading = true
-    @Published var todo: Todo! = nil
+    var id: String
+    var loading = true
+    var todo: Todo! = nil
     
     init(id: String, todoRepository: TodoRepository) {
         self.id = id
         self.todoRepository = todoRepository
     }
     
-    func load() async throws {
+    func load() async {
         loading = true
-        todo = try! await todoRepository.getTodo(id: id)
+        todo = await todoRepository.getTodo(id: id)
         loading = false
     }
     
-    func delete() async throws {
+    func delete() async {
         loading = true
-        try! await todoRepository.deleteTodo(id: id)
+        await todoRepository.deleteTodo(id: id)
         loading = false
     }
 }

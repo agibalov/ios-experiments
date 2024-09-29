@@ -6,7 +6,7 @@ struct NavigationExperimentApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(todoRepository: todoRepository)
-        }
+            ContentView()
+        }.environment(Router(todoRepository: todoRepository))
     }
 }

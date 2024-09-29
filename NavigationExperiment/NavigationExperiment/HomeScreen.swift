@@ -1,13 +1,11 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    private let todoRepository: TodoRepository
-    
-    @StateObject var homeViewModel: HomeViewModel
+    @State var homeViewModel: HomeViewModel
+    @Environment(Router.self) var router
     
     init(todoRepository: TodoRepository) {
-        self.todoRepository = todoRepository
-        _homeViewModel = StateObject(wrappedValue: HomeViewModel(todoRepository: todoRepository))
+        _homeViewModel = State(wrappedValue: HomeViewModel(todoRepository: todoRepository))
     }
     
     var body: some View {
@@ -17,27 +15,23 @@ struct HomeScreen: View {
             } else {
                 List {
                     ForEach(homeViewModel.todos, id: \.id) { todo in
-                        NavigationLink(todo.text, value: todo.id)
+                        NavigationLink(todo.text, value: Screen.todo(id: todo.id))
                     }.onDelete { indexSet in
                         let index = indexSet[indexSet.startIndex]
                         let id = homeViewModel.todos[index].id
                         Task {
-                            try! await homeViewModel.delete(id: id)
+                            await homeViewModel.delete(id: id)
                         }
                     }
                 }
-                .navigationDestination(for: String.self) { id in
-                    TodoScreen(id: id, todoRepository: todoRepository) // TODO: how do I get this constructed elsewhere?
-                }
                 
-                NavigationLink("About") {
-                    AboutScreen()
-                }
+                NavigationLink("About", value: Screen.about)
+                    .padding()
             }
         }
         .navigationTitle("Home")
         .task {
-            try! await homeViewModel.load()
+            await homeViewModel.load()
         }
     }
 }

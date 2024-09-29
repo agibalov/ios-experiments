@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct TodoScreen: View {
-    @StateObject private var todoViewModel: TodoViewModel
+    @State private var todoViewModel: TodoViewModel
+    @Environment(Router.self) var router
     
     init(id: String, todoRepository: TodoRepository) {
-        _todoViewModel = StateObject(wrappedValue: TodoViewModel(id: id, todoRepository: todoRepository))
+        _todoViewModel = State(wrappedValue: TodoViewModel(id: id, todoRepository: todoRepository))
     }
     
     var body: some View {
@@ -21,8 +22,8 @@ struct TodoScreen: View {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Delete") {
                     Task {
-                        try! await todoViewModel.delete()
-                        // TODO: navigate to home screen
+                        await todoViewModel.delete()
+                        router.path.removeLast(router.path.count)
                     }
                 }
                 
@@ -33,7 +34,7 @@ struct TodoScreen: View {
             }
         }
         .task {
-            try! await todoViewModel.load()
+            await todoViewModel.load()
         }
     }
 }

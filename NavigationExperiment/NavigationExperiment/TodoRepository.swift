@@ -7,22 +7,30 @@ class TodoRepository {
         Todo(id: "3", text: "Get some milk", done: true)
     ]
     
-    func getTodos() async throws -> [Todo] {
-        try await sleep()
+    func getTodos() async -> [Todo] {
+        await sleep()
         return todos
     }
     
-    func getTodo(id: String) async throws -> Todo? {
-        try await sleep()
+    func getTodo(id: String) async -> Todo? {
+        await sleep()
         return todos.first(where: { todo in todo.id == id })
     }
     
-    func deleteTodo(id: String) async throws {
-        try await sleep()
-        todos.remove(at: todos.firstIndex(where: { todo in todo.id == id })!)
+    func deleteTodo(id: String) async {
+        await sleep()
+        guard let index = todos.firstIndex(where: { todo in todo.id == id }) else {
+            print("\(id) doesn't exist")
+            return
+        }
+        todos.remove(at: index)
     }
     
-    private func sleep() async throws {
-        try await Task.sleep(nanoseconds: 3_000_000_000)
+    private func sleep() async {
+        do {
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+        } catch {
+            print("sleep() had an exception")
+        }
     }
 }

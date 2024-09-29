@@ -1,21 +1,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    private let todoRepository: TodoRepository
+    @Environment(Router.self) var router
     
-    init(todoRepository: TodoRepository) {
-        self.todoRepository = todoRepository
-    }
-    
-    // TODO: consider using environment objects for DI
     var body: some View {
-        NavigationStack {
-            HomeScreen(todoRepository: todoRepository)
+        @Bindable var router = router
+        NavigationStack(path: $router.path) {
+            router.navigate(to: .home)
+                .navigationDestination(for: Screen.self) { screen in
+                    router.navigate(to: screen)
+                }
         }
     }
 }
 
 #Preview {
-    let todoRepository = TodoRepository()
-    ContentView(todoRepository: todoRepository)
+    let router = Router(todoRepository: TodoRepository())
+    ContentView().environment(router)
 }
