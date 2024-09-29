@@ -9,10 +9,8 @@ struct HomeScreen: View {
     }
     
     var body: some View {
-        VStack {
-            if homeViewModel.loading {
-                Text("Loading...")
-            } else {
+        WorkingView(homeViewModel.loading) {
+            VStack {
                 List {
                     ForEach(homeViewModel.todos, id: \.id) { todo in
                         NavigationLink(todo.text, value: Screen.todo(id: todo.id))

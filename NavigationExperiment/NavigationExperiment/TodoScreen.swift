@@ -9,10 +9,8 @@ struct TodoScreen: View {
     }
     
     var body: some View {
-        VStack {
-            if todoViewModel.loading {
-                Text("Loading...")
-            } else {
+        WorkingView(todoViewModel.loading) {
+            VStack {
                 Text(todoViewModel.todo.text)
                 Text("Done: \(todoViewModel.todo.done)")
             }
@@ -23,13 +21,8 @@ struct TodoScreen: View {
                 Button("Delete") {
                     Task {
                         await todoViewModel.delete()
-                        router.path.removeLast(router.path.count)
+                        router.popToRoot()
                     }
-                }
-                
-                Button("Edit") {
-                    // TODO
-                    print("Edit todo #\(todoViewModel.todo.id)")
                 }
             }
         }
