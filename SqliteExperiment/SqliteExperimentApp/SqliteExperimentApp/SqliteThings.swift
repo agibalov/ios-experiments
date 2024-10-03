@@ -1,4 +1,5 @@
 import func Foundation.NSSearchPathForDirectoriesInDomains
+import struct Foundation.UUID
 import SQLite
 
 func doSqliteThings() {
@@ -7,28 +8,17 @@ func doSqliteThings() {
     ).first!
     
     do {
-        //let db = try Connection("\(path)/db.sqlite3")
+        let todoDatabaseFactory = TodoDatabaseFactory()
+        let db = try todoDatabaseFactory.makeDatabase()
         
-        let db = try Connection() // in-memory
+        try db.putTodo(id: UUID().uuidString, text: "Get some milk", done: true)
+        try db.putTodo(id: UUID().uuidString, text: "Get some coffee", done: false)
         
-        let todos = Table("todos")
-        let id = Expression<Int64>("id")
-        let text = Expression<String>("text")
-        
-        try db.run(todos.create(ifNotExists: true) { t in
-            t.column(id, primaryKey: true)
-            t.column(text)
-        })
-        
-        try db.run(todos.insert(or: .replace, id <- 1, text <- "Get some milk"))
-        try db.run(todos.insert(or: .replace, id <- 2, text <- "Get some coffee"))
-        
-        for todo in try db.prepare(todos.select(id, text)) {
-            print("id: \(todo[id]), text: \(todo[text])")
+        for todo in try db.getTodos() {
+            print("id=\(todo.id) text=\(todo.text) done=\(todo.done)")
         }
         
-        let count = try db.scalar(todos.count)
-        print("count=\(count)")
+        print("count=\(try db.getCount())")
     } catch {
         print("Error: \(error)")
     }
