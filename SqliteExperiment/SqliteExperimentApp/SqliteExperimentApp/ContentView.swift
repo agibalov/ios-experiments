@@ -3,11 +3,14 @@ import SqliteExperimentDependencies
 import struct Foundation.UUID
 
 struct ContentView: View {
+    private let dbService: TodoDatabaseService
     private let db: TodoDatabase
     @State private var todos: [Todo] = []
     @State private var isCreateTodoPresented = false
+    @State private var editTodo: Todo!
     
-    init(db: TodoDatabase) {
+    init(dbService: TodoDatabaseService, db: TodoDatabase) {
+        self.dbService = dbService
         self.db = db
     }
     
@@ -18,18 +21,33 @@ struct ContentView: View {
             } else {
                 List {
                     ForEach(todos) { todo in
-                        Text(todo.text)
-                            .swipeActions {
-                                Button("Delete") {
-                                    deleteTodo(id: todo.id)
-                                }.tint(.red)
+                        VStack(alignment: .leading) {
+                            Text(todo.text)
+                            Text(todo.done ? "Done" : "Not Done")
+                                .fontWeight(.bold)
+                        }
+                        .swipeActions {
+                            Button("Edit") {
+                                editTodo = todo
                             }
+                            Button("Delete") {
+                                deleteTodo(id: todo.id)
+                            }.tint(.red)
+                        }
+                    }
+                }
+                .sheet(item: $editTodo) { item in
+                    EditTodoView(text: item.text, done: item.done) { text, done in
+                        updateTodo(id: item.id, text: text, done: done)
                     }
                 }
             }
         }
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
+                Button("Drop DB") {
+                    try! dbService.dropDatabase()
+                }
                 Button("New") {
                     isCreateTodoPresented = true
                 }
@@ -54,6 +72,11 @@ struct ContentView: View {
         loadTodos()
     }
     
+    func updateTodo(id: String, text: String, done: Bool) {
+        try! db.putTodo(id: id, text: text, done: done)
+        loadTodos()
+    }
+    
     func deleteTodo(id: String) {
         try! db.deleteTodo(id: id)
         loadTodos()
@@ -61,5 +84,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(db: try! TodoDatabaseFactory().makeDatabase())
+    let dbService = TodoDatabaseService()
+    let db = try! dbService.makeDatabase()
+    ContentView(dbService: dbService, db: db)
 }

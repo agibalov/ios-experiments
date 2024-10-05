@@ -5,7 +5,7 @@ struct CreateTodoView: View {
     let action: @MainActor (_ text: String) -> Void
     
     @Environment(\.dismiss) private var dismiss
-    @State private var text: String = ""
+    @State private var text = ""
     
     var body: some View {
         Form {

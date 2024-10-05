@@ -2,12 +2,18 @@ import SwiftUI
 
 @main
 struct SqliteExperimentAppApp: App {
-    private let db = try! TodoDatabaseFactory().makeDatabase()
+    private let dbService: TodoDatabaseService
+    private let db: TodoDatabase
+    
+    init() {
+        dbService = TodoDatabaseService()
+        db = try! dbService.makeDatabase()
+    }
     
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                ContentView(db: db)
+                ContentView(dbService: dbService, db: db)
             }
         }
     }

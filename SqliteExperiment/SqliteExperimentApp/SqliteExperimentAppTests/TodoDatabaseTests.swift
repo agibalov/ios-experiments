@@ -6,7 +6,7 @@ class TodoDatabaseTests {
     var db: TodoDatabase
     
     init() throws {
-        let todoDatabaseFactory = TodoDatabaseFactory()
+        let todoDatabaseFactory = TodoDatabaseService()
         db = try todoDatabaseFactory.makeDatabase()
     }
     
