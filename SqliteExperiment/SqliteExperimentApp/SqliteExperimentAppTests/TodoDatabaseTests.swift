@@ -7,7 +7,7 @@ class TodoDatabaseTests {
     
     init() throws {
         let todoDatabaseFactory = TodoDatabaseService()
-        db = try todoDatabaseFactory.makeDatabase()
+        db = try todoDatabaseFactory.makeInMemoryDatabase()
     }
     
     deinit {

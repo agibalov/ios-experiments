@@ -85,6 +85,6 @@ struct ContentView: View {
 
 #Preview {
     let dbService = TodoDatabaseService()
-    let db = try! dbService.makeDatabase()
+    let db = try! dbService.makeInMemoryDatabase()
     ContentView(dbService: dbService, db: db)
 }

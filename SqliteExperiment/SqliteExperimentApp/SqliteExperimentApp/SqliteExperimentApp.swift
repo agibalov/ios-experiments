@@ -1,13 +1,13 @@
 import SwiftUI
 
 @main
-struct SqliteExperimentAppApp: App {
+struct SqliteExperimentApp: App {
     private let dbService: TodoDatabaseService
     private let db: TodoDatabase
     
     init() {
         dbService = TodoDatabaseService()
-        db = try! dbService.makeDatabase()
+        db = try! dbService.makePersistentDatabase()
     }
     
     var body: some Scene {
