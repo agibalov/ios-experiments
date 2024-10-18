@@ -1,0 +1,11 @@
+strict: true
+line_length: 80
+type_name:
+  min_length: 5
+  max_length: 50
+identifier_name:
+  min_length: 2
+  max_length: 50
+
+excluded:
+  - build/**

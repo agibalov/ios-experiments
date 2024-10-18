@@ -5,11 +5,11 @@ public struct ContentView: View {
     public static let bTextFieldName = "bTextField"
     public static let resultTextFieldName = "resultTextField"
     public static let addNumbersButtonName = "addNumbersButton"
-    
+
     @State private var aString = ""
     @State private var bString = ""
     @State private var sumString = ""
-    
+
     public var body: some View {
         Form {
             Section(header: Text("A goes here")) {
@@ -33,8 +33,8 @@ public struct ContentView: View {
                     sumString = "b is not a number"
                     return
                 }
-                
-                sumString = String(a + b)
+
+                sumString = String(addNumbers(a: a, b: b))
             }
             .accessibilityIdentifier(ContentViewIds.addNumbersButtonName)
         }
@@ -44,3 +44,4 @@ public struct ContentView: View {
 #Preview {
     ContentView()
 }
+
