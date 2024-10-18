@@ -7,6 +7,14 @@ DESTINATION="platform=iOS Simulator,name=iPhone SE (3rd generation),OS=18.0"
 if [ "${command}" == "" ]; then
   echo "No command specified"
 
+elif [ "${command}" == "lint" ]; then
+  if command -v swiftlint >/dev/null 2>&1 
+  then
+    swiftlint
+  else
+    echo "warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions."
+  fi
+
 elif [ "${command}" == "clean" ]; then
   xcodebuild \
     -project ${PROJECT_NAME} \
