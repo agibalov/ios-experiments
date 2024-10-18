@@ -34,7 +34,7 @@ public struct ContentView: View {
                     return
                 }
                 
-                sumString = String(a + b)
+                sumString = String(addNumbers(a: a, b: b))
             }
             .accessibilityIdentifier(ContentViewIds.addNumbersButtonName)
         }
