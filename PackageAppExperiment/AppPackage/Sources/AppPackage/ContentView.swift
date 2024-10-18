@@ -1,6 +1,5 @@
 import SwiftUI
 
-@available(iOS 15.0.0, *)
 public struct ContentView: View {
     public init() {
     }
@@ -18,7 +17,6 @@ public struct ContentView: View {
     }
 }
 
-@available(iOS 15.0.0, *)
 #Preview {
     ContentView()
 }
