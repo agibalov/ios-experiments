@@ -9,7 +9,7 @@ Figuring out Swift/SwiftUI testing.
 ## How to use
 
 * `./tool.sh lint` - run SwiftLint
-* `./tool.sh clean` - "clean" (what exactly does it do?)
+* `./tool.sh clean` - clean
 * `./tool.sh archive` - creates an app archive at `build/app.xarchive`
 * `./tool.sh test` - run all tests
 * `./tool.sh test-unit` - run unit tests
