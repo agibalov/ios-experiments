@@ -10,6 +10,8 @@ public struct ContentView: View {
     @State private var bString = ""
     @State private var sumString = ""
 
+    internal var didAppear: ((Self) -> Void)? // ViewInspector wants this
+
     public var body: some View {
         Form {
             Section(header: Text("A goes here")) {
@@ -38,6 +40,7 @@ public struct ContentView: View {
             }
             .accessibilityIdentifier(ContentViewIds.addNumbersButtonName)
         }
+        .onAppear { self.didAppear?(self) } // ViewInspector wants this
     }
 }
 
