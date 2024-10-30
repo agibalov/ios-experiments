@@ -23,6 +23,6 @@ See `UsingUIHostingControllerTests`.
 
 See `UsingXCUIApplicationTests`.
 
-* Difficult to render any view in any state - no programmatic access to the app code
+* Difficult to render any view in any state - no programmatic access to the app code. Not obvious how to wait for app to fully launch.
 * Shows carrier, clock, etc
 * Assets work
