@@ -1,17 +1,28 @@
 # Screenshots Experiment
 
-Figuring out options to automate screenshots for AppStore submissions
+Figuring out options to automate screenshots for AppStore submissions.
 
 ## Option 1. `ImageRenderer`
 
-See `UsingImageRendererTests`. This one has difficulties with assets:
+See `UsingImageRendererTests`.
 
-> No color named 'NiceOrange' found in asset catalog for .../ScreenshotsExperiment.app
+* Easy to render any view in any state
+* Doesn't show carrier, clock, etc
+* Assets (at least colors) don't work:
+  > No color named 'NiceOrange' found in asset catalog for .../ScreenshotsExperiment.app
 
 ## Option 2. `UIHostingController`
 
-See `UsingUIHostingControllerTests`. This one works and there are no obvious problems.
+See `UsingUIHostingControllerTests`.
+
+* Easy to render any view in any state
+* Doesn't show carrier, clock, etc
+* Assets work
 
 ## Option 3. `XCUIApplication`
 
-See `UsingXCUIApplicationTests`. This one works and there are no obvious problems.
+See `UsingXCUIApplicationTests`.
+
+* Difficult to render any view in any state - no programmatic access to the app code
+* Shows carrier, clock, etc
+* Assets work
